@@ -1,0 +1,17 @@
+{
+  "name": "swiftlet",
+  "version": "1.0.0",
+  "description": "Web dev build tool",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node ./src/index.ts"
+  },
+  "author": "GavinBirkhoff",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.1",
+    "eslint-config-lavy": "1.0.2-Alpha",
+    "lavy": "1.0.2-Alpha.0",
+    "ts-node": "^10.9.1"
+  }
+}
