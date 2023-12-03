@@ -9,9 +9,14 @@
   "author": "GavinBirkhoff",
   "license": "MIT",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.1",
     "eslint-config-lavy": "1.0.2-Alpha",
     "lavy": "1.0.2-Alpha.0",
     "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "rollup": "^4.6.1"
   }
 }
