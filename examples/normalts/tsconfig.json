@@ -1,0 +1,34 @@
+{
+  "extends": "lavy/tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "esnext",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    // "declarationDir": "./types"
+    // "outFile": "./",
+    // "allowJs": true,
+    // "checkJs": true,
+    // "jsx": "react-jsxdev",
+    // "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false
+    // "downlevelIteration": true ,
+    // "importHelpers": true,
+    // "lib": [],
+    // "rootDirs": [],
+    // "typeRoots": [],
+    // "types": [],
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/node_modules/*"]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "test-swiftlet",
+  "scripts": {
+    "build": "swiftlet build"
+  },
+  "dependencies": {
+    "swiftlet": "workspace:*"
+  }
+}
