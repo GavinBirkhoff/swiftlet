@@ -1,3 +1,6 @@
 module.exports = {
-  extends: ['lavy/typescript']
+  extends: ['lavy/typescript'],
+  rules: {
+    'no-shadow': 'off'
+  }
 }

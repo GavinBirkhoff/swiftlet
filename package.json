@@ -1,21 +1,49 @@
 {
   "name": "swiftlet",
-  "version": "1.0.0",
+  "version": "1.0.0-Alpha",
   "description": "Web dev build tool",
-  "main": "index.js",
-  "scripts": {
-    "dev": "npx ts-node ./src/index.ts"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "swiftlet": "bin/swiftlet.js"
   },
-  "author": "GavinBirkhoff",
+  "scripts": {
+    "dev": "npx ts-node ./src/index.ts",
+    "build:es": "rm -rf ./dist/* && rm -rf ./types/* && npx tsc",
+    "build": "rimraf dist && pnpm tsc",
+    "dev2": "pnpm build --watch",
+    "format": "prettier --write . && npx eslint src --ext .js,.ts",
+    "test": "jest"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "compiled"
+  ],
+  "author": "GavinBirkhoff <gavinbirkhoff@gmail.com> (https://github.com/gavinbirkhoff)",
   "license": "MIT",
+  "engines": {
+    "node": ">=17.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/GavinBirkhoff/swiftlet/issues"
+  },
+  "homepage": "https://github.com/GavinBirkhoff/swiftlet#readme",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.1",
     "eslint-config-lavy": "1.0.2-Alpha",
     "lavy": "1.0.2-Alpha.0",
-    "ts-node": "^10.9.1"
+    "rimraf": "^5.0.5",
+    "rollup-plugin-dts": "^6.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
     "fs-extra": "^11.2.0",
     "rollup": "^4.6.1",
     "tapable": "^2.2.1"
