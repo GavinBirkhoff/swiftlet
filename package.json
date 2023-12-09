@@ -20,6 +20,15 @@
     "bin",
     "compiled"
   ],
+  "keywords": [
+    "frontend",
+    "hmr",
+    "dev-server",
+    "build-tool",
+    "bundler",
+    "bundling",
+    "swiftlet"
+  ],
   "author": "GavinBirkhoff <gavinbirkhoff@gmail.com> (https://github.com/gavinbirkhoff)",
   "license": "MIT",
   "engines": {
