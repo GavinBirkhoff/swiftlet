@@ -1,24 +1,30 @@
+import path from 'node:path'
 abstract class SwiftletTask {
-  private readonly root: string
-  protected readonly debug: boolean
+  private readonly appRoot: string
+  protected readonly env: string | undefined
 
   constructor() {
-    this.root = process.cwd()
-    this.debug = process.env['SFL_DEBUG'] !== undefined
+    let cwd = process.cwd()
+    const appRoot = process.env.APP_ROOT
+    if (appRoot) {
+      cwd = path.isAbsolute(appRoot) ? appRoot : path.join(cwd, appRoot)
+    }
+    this.appRoot = cwd
+    this.env = process.env.NODE_ENV
   }
 
   getName(): string {
     return this.constructor.name
   }
 
-  getRoot(): string {
-    return this.root
+  getAppRoot(): string {
+    return this.appRoot
   }
 
-  async run() {
-    await this.runImpl()
+  async run(): Promise<boolean> {
+    return await this.runImpl()
   }
-  abstract runImpl(): Promise<void>
+  abstract runImpl(): Promise<boolean>
 }
 
 export default SwiftletTask

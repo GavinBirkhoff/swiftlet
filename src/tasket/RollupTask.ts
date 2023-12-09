@@ -1,4 +1,4 @@
-import { InputPluginOption, OutputOptions, RollupBuild, RollupOptions, rollup } from 'rollup'
+import { InputPluginOption, OutputOptions, RollupBuild, RollupOptions } from 'rollup'
 import SwiftletTask from './SwiftletTask'
 
 class RollupTask extends SwiftletTask {
@@ -7,50 +7,34 @@ class RollupTask extends SwiftletTask {
   constructor(options: RollupOptions) {
     super()
     this.rollupOptions = options
-    if (options.output) {
-      if (Array.isArray(options.output)) {
-        this.outputOptionsList = options.output
-      } else {
-        this.outputOptionsList = [options.output]
-      }
-    }
+    this.outputOptionsList = options.output as OutputOptions[]
   }
-  async build() {
-    let bundle
+
+  async build(options: RollupOptions): Promise<boolean> {
+    let bundle: RollupBuild | undefined
     let buildFailed = false
     try {
-      bundle = await rollup(this.rollupOptions)
-
-      console.log(bundle.watchFiles)
-
+      const { rollup } = await import('rollup')
+      bundle = await rollup(options)
       await this.generateOutputs(bundle)
     } catch (error) {
       buildFailed = true
       console.error(error)
+    } finally {
+      if (bundle) await bundle.close()
     }
-    if (bundle) {
-      await bundle.close()
-    }
-    process.exit(buildFailed ? 1 : 0)
+    // process.exit(buildFailed ? 1 : 0)
+    return buildFailed
   }
   async generateOutputs(bundle: RollupBuild) {
     if (!this.outputOptionsList) return
     for (const outputOptions of this.outputOptionsList) {
       await bundle.write(outputOptions)
-
-      const { output } = await bundle.generate(outputOptions)
-
-      for (const chunkOrAsset of output) {
-        if (chunkOrAsset.type === 'asset') {
-          console.log('Asset', chunkOrAsset)
-        } else {
-          console.log('Chunk', chunkOrAsset.modules)
-        }
-      }
     }
   }
-  async runImpl(): Promise<void> {
-    await this.build()
+  async runImpl(): Promise<boolean> {
+    const buildFailed = await this.build(this.rollupOptions)
+    return buildFailed
   }
 }
 

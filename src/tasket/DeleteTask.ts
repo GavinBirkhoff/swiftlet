@@ -9,12 +9,17 @@ export class DeleteTask extends SwiftletTask {
     this.paths = paths
   }
 
-  async runImpl(): Promise<void> {
-    for (const file of this.paths) {
-      // eslint-disable-next-line import/namespace
-      if (fs.existsSync(file)) {
-        await fs.remove(file)
+  async runImpl(): Promise<boolean> {
+    try {
+      for (const file of this.paths) {
+        // eslint-disable-next-line import/namespace
+        if (fs.existsSync(file)) {
+          await fs.remove(file)
+        }
       }
+      return true
+    } catch (error) {
+      return false
     }
   }
 }
