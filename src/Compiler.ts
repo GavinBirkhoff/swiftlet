@@ -1,22 +1,46 @@
-import { RollupOptions } from 'rollup'
+import { OutputOptions, RollupOptions, defineConfig } from 'rollup'
 import RollupTask from './tasket/RollupTask'
 import { SwiftletOptions } from './types'
 import DeleteTask from './tasket/DeleteTask'
-import path from 'path'
+import path from 'node:path'
+import { SyncHook } from 'tapable'
+import { appRoot } from './utils'
+import { createRollupOptions } from './utils/rollup'
+
 class Compiler {
   readonly inputOptions: SwiftletOptions
+  protected readonly hooks
+
   constructor(options: SwiftletOptions) {
-    this.inputOptions = options
-  }
-  async run() {
-    const clean = new DeleteTask([path.resolve(process.cwd(), 'lib')])
-    clean.run()
-    const rollupOptions: RollupOptions = {
-      input: this.inputOptions.input,
-      output: this.inputOptions.output
+    this.inputOptions = {
+      ...options,
+      outDir: options.outDir ?? 'dist'
     }
-    const rollupTask = new RollupTask(rollupOptions)
-    await rollupTask.run()
+    this.hooks = {
+      entryOption: new SyncHook(), // start
+      compile: new SyncHook(), // compile
+      afterCompile: new SyncHook(), // end
+      run: new SyncHook(),
+      emit: new SyncHook(),
+      done: new SyncHook()
+    }
+  }
+
+  async run() {
+    const { outDir } = this.inputOptions
+    console.log(`clean ...`)
+    const cleanTask = new DeleteTask([path.resolve(appRoot, outDir as string)])
+    await cleanTask.run()
+    console.log(`clean success`)
+    console.log(`build ...`)
+    const rollupOptions: RollupOptions[] = await createRollupOptions(this.inputOptions)
+    for (const options of rollupOptions) {
+      const rollupTask = new RollupTask(options)
+      const buildFailed = await rollupTask.run()
+      buildFailed && process.exit(1)
+    }
+    console.log(`build success`)
+    this.hooks.done.call('done')
   }
 }
 
