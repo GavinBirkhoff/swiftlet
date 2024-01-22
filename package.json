@@ -1,6 +1,6 @@
 {
   "name": "swiftlet",
-  "version": "1.0.0-Alpha",
+  "version": "1.0.0-Alpha.1",
   "description": "Web dev build tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,22 +39,22 @@
   },
   "homepage": "https://github.com/GavinBirkhoff/swiftlet#readme",
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.1",
     "eslint-config-lavy": "1.0.2-Alpha",
     "lavy": "1.0.2-Alpha.0",
     "rimraf": "^5.0.5",
-    "rollup-plugin-dts": "^6.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
   },
   "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "fs-extra": "^11.2.0",
     "rollup": "^4.6.1",
+    "rollup-plugin-dts": "^6.1.0",
     "tapable": "^2.2.1"
   }
 }
