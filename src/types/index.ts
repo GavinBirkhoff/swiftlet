@@ -22,6 +22,7 @@ export interface SwiftletOptions {
   sourcemap?: boolean
   plugins?: InputPluginOption[]
   rollupOptions?: RollupOptions
+  types?: boolean // dts
 }
 
 export type ShellInputOptions = Partial<SwiftletOptions>

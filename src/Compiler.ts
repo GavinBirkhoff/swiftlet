@@ -6,6 +6,7 @@ import path from 'node:path'
 import { SyncHook } from 'tapable'
 import { appRoot } from './utils'
 import { createRollupOptions } from './utils/rollup'
+import chalk from 'chalk'
 
 class Compiler {
   readonly inputOptions: SwiftletOptions
@@ -28,10 +29,10 @@ class Compiler {
 
   async run() {
     const { outDir } = this.inputOptions
-    console.log(`clean ...`)
+    console.log(`clean ${outDir} ...`)
     const cleanTask = new DeleteTask([path.resolve(appRoot, outDir as string)])
     await cleanTask.run()
-    console.log(`clean success`)
+    console.log(chalk.green(`clean success`))
     console.log(`build ...`)
     const rollupOptions: RollupOptions[] = await createRollupOptions(this.inputOptions)
     for (const options of rollupOptions) {
@@ -39,7 +40,7 @@ class Compiler {
       const buildFailed = await rollupTask.run()
       buildFailed && process.exit(1)
     }
-    console.log(`build success`)
+    console.log(chalk.green(`build success`))
     this.hooks.done.call('done')
   }
 }

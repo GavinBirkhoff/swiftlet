@@ -1,8 +1,8 @@
 {
   "extends": "lavy/tsconfig.base.json",
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "baseUrl": "./",
     "outDir": "./dist",
     "rootDir": "./",

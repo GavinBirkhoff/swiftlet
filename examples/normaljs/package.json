@@ -1,5 +1,5 @@
 {
-  "name": "test-swiftlet",
+  "name": "example-normaljs",
   "scripts": {
     "build": "swiftlet build"
   },

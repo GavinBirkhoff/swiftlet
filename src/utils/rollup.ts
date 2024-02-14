@@ -7,7 +7,7 @@ import { appRoot, isTypeScript, transformString } from './index'
 import { SwiftletOptions } from '../index'
 
 export async function createRollupOptions(options: SwiftletOptions): Promise<RollupOptions[]> {
-  const { input, target = 'esm', outDir, sourcemap = false, rollupOptions = {}, plugins = [] } = options
+  const { input, target = 'esm', outDir, sourcemap = false, types = true, rollupOptions = {}, plugins = [] } = options
   const pck = await import(path.resolve(appRoot, 'package.json'))
   const { name = 'bundle' } = pck
   // output
@@ -50,7 +50,7 @@ export async function createRollupOptions(options: SwiftletOptions): Promise<Rol
   const innerPlugins: InputPluginOption[] = [terser()]
 
   if (isTypeScript()) {
-    innerPlugins.push(typescript({ compilerOptions: { declaration: false } }))
+    innerPlugins.push(typescript())
   }
 
   const configs: RollupOptions[] = [
@@ -62,7 +62,7 @@ export async function createRollupOptions(options: SwiftletOptions): Promise<Rol
     }
   ]
 
-  if (isTypeScript()) {
+  if (types && isTypeScript()) {
     const dtsOutput: RollupOptions = {
       input,
       plugins: [dts()],
