@@ -49,18 +49,34 @@ export async function createRollupOptions(options: SwiftletOptions): Promise<Rol
   // plugin
   const innerPlugins: InputPluginOption[] = [terser()]
 
-  if (isTypeScript()) {
-    innerPlugins.push(typescript())
-  }
+  const configs: RollupOptions[] = []
 
-  const configs: RollupOptions[] = [
-    {
+  if (isTypeScript()) {
+    output.forEach((item) => {
+      configs.push({
+        input,
+        output: [item],
+        plugins: [
+          ...plugins,
+          ...innerPlugins,
+          typescript({
+            compilerOptions: {
+              declaration: false,
+              module: item.format === 'cjs' || item.format === 'commonjs' ? 'CommonJS' : 'ESNext'
+            }
+          })
+        ],
+        ...rollupOptions // TODO merge plugins
+      })
+    })
+  } else {
+    configs.push({
       input,
       output,
       plugins: [...plugins, ...innerPlugins],
       ...rollupOptions // TODO merge plugins
-    }
-  ]
+    })
+  }
 
   if (types && isTypeScript()) {
     const dtsOutput: RollupOptions = {
