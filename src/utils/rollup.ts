@@ -62,7 +62,8 @@ export async function createRollupOptions(options: SwiftletOptions): Promise<Rol
           typescript({
             compilerOptions: {
               declaration: false,
-              module: item.format === 'cjs' || item.format === 'commonjs' ? 'CommonJS' : 'ESNext'
+              // module: item.format === 'cjs' || item.format === 'commonjs' ? 'CommonJS' : 'ESNext'
+              sourceMap: sourcemap
             }
           })
         ],
