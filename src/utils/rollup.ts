@@ -86,7 +86,7 @@ export async function createRollupOptions(options: SwiftletOptions): Promise<Rol
       output: [
         {
           format: 'es',
-          file: `${path.join(outDir as string, `${name}.d.ts`)} `
+          file: `${path.join(outDir as string, `${name}.d.ts`)}`
         }
       ]
     }
